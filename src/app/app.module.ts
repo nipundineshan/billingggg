@@ -6,12 +6,14 @@ import { BillingComponent } from './component/billing/billing.component';
 import { StockComponent } from './component/stock/stock.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { CommonModule } from '@angular/common';
+import { BillAddressComponent } from './component/bill-address/bill-address.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BillingComponent,
-    StockComponent
+    StockComponent,
+    BillAddressComponent
   ],
   imports: [
     BrowserModule,

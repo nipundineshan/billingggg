@@ -28,25 +28,12 @@
     </div>
   </div>
   <br>
+  <app-bill-address></app-bill-address>
+  <br>
   <div class="container">
-    <!-- <h1>Enter Names and Email addresses of your contacts</h1>
-         <div class = "form-group">
-            <label for = "Name">Name</label>
-            <input type = "text" name = "Name" value = "" id = "Name" 
-               placeholder = "Name" class = "form-control" required>
-         </div>
-         
-         <div class = "form-group">
-            <label for = "Email">Email</label>
-            <input type = "email" name = "Email" value = "" id = "Email" 
-               placeholder = "Email" class = "form-control" required>
-         </div>
-         
-         <div class = "form-group">
-            <button class = "btn btn-primary" id = "add-to-list" (click)="addItems();">Add to list!</button>
-         </div> -->
+    
 
-    <div id="container" *ngIf="selectedProducts">
+    <div id="container" *ngIf="selectedProducts"style="text-align: right">
       <table class="table table-condensed billing-table" *ngIf="selectedProducts">
           <tr style="border: 2px solid goldenrod; padding:0px">
               <th class="col-xs-2" rowspan="2" style="border: 2px solid goldenrod; padding:0px">SL No.</th>
@@ -62,29 +49,33 @@
               <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Total</th>
             </tr>
         <tr>
-          <th class="col-xs-6" style="border: 2px solid goldenrod; padding:0px">%</th>
-          <th class="col-xs-6" style="border: 2px solid goldenrod; padding:0px">Amount</th>
-          <th class="col-xs-6" style="border: 2px solid goldenrod; padding:0px">%</th>
-          <th class="col-xs-6" style="border: 2px solid goldenrod; padding:0px" >Amount</th>
+          <th class="col-xs-6" style="border: 2px solid; padding:0px">%</th>
+          <th class="col-xs-6" style="border: 2px solid; padding:0px">Amount</th>
+          <th class="col-xs-6" style="border: 2px solid; padding:0px">%</th>
+          <th class="col-xs-6" style="border: 2px solid; padding:0px" >Amount</th>
         </tr>
         <tr style="border: none; border-left: 2px solid" *ngFor="let sel of selectedProducts; index as i" >
         <td style="border: none; border-left: 2px solid" >{{i+1}}</td>
         <td style=" border: none; border-left: 2px solid" >{{sel.particulars}}</td>
-        <td style="border-left: 2px solid" >{{sel.hsnsac}}</td>
-        <td style="border-left: 2px solid" >{{sel.qty}}</td>
-        <td style="border-left: 2px solid" >{{sel.unit}}</td>
-        <td style="border-left: 2px solid" >{{sel.rate}}</td>
-        <td style="border-left: 2px solid" >{{sel.amount}}</td>
-        <td style="border-left: 2px solid" >{{cgst+"%"}}</td>
-        <td style="border-left: 2px solid" >{{sel.cgstAmount}}</td>
-        <td style="border-left: 2px solid" >{{sgst+"%"}}</td>
-        <td style="border-left: 2px solid" >{{sel.sgstAmount}}</td>
-        <td style="border-left: 2px solid" >{{sel.taxTotal}}</td>
-        <td style="border-left: 2px solid" >{{sel.total}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.hsnsac}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.qty}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.unit}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.rate}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.amount}}</td>
+        <td style="border: none; border-left: 2px solid" >{{cgst+"%"}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.cgstAmount}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sgst+"%"}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.sgstAmount}}</td>
+        <td style="border: none; border-left: 2px solid" >{{sel.taxTotal}}</td>
+        <td style="border: none; border-left: 2px solid; border-right: 2px solid" >{{sel.total}}</td>
       </tr>
       <tr>
-        <td colspan="12">Final Amount </td>
-        
+        <td colspan="3" style="text-align: center">Total</td>
+        <td>{{totalQty}}</td>
+        <td colspan="3" >{{totalAmount}}</td>
+        <td colspan="2">{{totalCgst}}</td>
+        <td colspan="2">{{totalSgst}}</td>
+        <td>{{totalTax}}</td>
         <td>{{finalAmountGst}} </td>
        </tr>
       </table>

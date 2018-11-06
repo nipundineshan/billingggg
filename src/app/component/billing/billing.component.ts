@@ -22,7 +22,11 @@ finalAmount = 0;
 finalAmountGst = 0;
 
 selectedProducts : Product [];
-
+totalQty:number = 0;
+totalAmount:number = 0;
+totalSgst:number = 0;
+totalCgst:number = 0;
+totalTax : number = 0;
   constructor() { }
 
   ngOnInit() {
@@ -71,25 +75,23 @@ selectedProducts : Product [];
     console.log(this.count)
     let qty = this.count;
    
-    let sel = this.itemMap[this.itemModel];
-    let amount = this.count * sel.rate;
-    this.finalAmount = this.finalAmount + amount;
-    console.log(this.finalAmount)
-    this.finalAmountGst = this.finalAmount + ((this.finalAmount/100)*this.cgst);
+    let selectedGoods = this.itemMap[this.itemModel];
     
-    let {particulars, hsnsac, unit, rate } = sel;
+    
+    let {particulars, hsnsac, unit, rate } = selectedGoods;
     let [ cgst, sgst] = [this.cgst, this.sgst]
-    // this.selectedItems.push({
-    //   name : sel.name,
-    //   model : sel.model,
-    //   price: sel.price,
-    //   qty : this.count,
-    //   amount
-    // })
-
+  
     let prod = new Product({particulars, hsnsac, unit, rate, qty, cgst, sgst })
     this.selectedProducts.push(prod)
     console.log(JSON.stringify(this.selectedItems));
+    
+    this.totalQty = this.totalQty + qty;
+this.totalAmount = this.totalAmount + prod.amount;
+this.totalCgst = this.totalCgst + prod.cgstAmount;
+this.totalSgst = this.totalSgst + prod.sgstAmount;
+this.totalTax = this.totalTax + prod.taxTotal;
+    this.finalAmountGst = this.finalAmountGst + prod.total;
+
   //   console.log('in add itemssssssss'); 
     
   //   window.fs.writeFile("saample.txt", "Hey there!", function(err) {
