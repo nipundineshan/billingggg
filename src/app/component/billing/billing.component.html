@@ -3,81 +3,92 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>File System</title>
-
-  <style type="text/css">
-    #contact-list {
-      height: 150px;
-      overflow-y: auto;
-    }
-  </style>
+  <title>Billing</title>
 </head>
 
 <body>
-  <div class="row printViewHide" *ngIf="availableItems" >
-    <div class="col-sm-4">Model</div>
-    <div class="col-sm-4"> <select [(ngModel)]="itemModel" class="browser-default custom-select">
-        <option  *ngFor="let avail of availableItems" selected="avail.hsnsac==itemModel">{{avail.hsnsac}}</option>
-      </select></div>
-    <div class="col-sm-2">
-      <input id="user_lic" [(ngModel)]="count" type="number" min="1" max="30" step="1" value="1" />
-    </div>
-    <div class="col-sm-2">
-      <button class="btn btn-primary" (click)="addItems();">Add Item</button>
-
-    </div>
-  </div>
-  <br>
-  <app-bill-address></app-bill-address>
-  <br>
   <div class="container">
-    
+    <div class="row" style="border: 2px solid">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6" style="text-align: center">TAX INVOICE</div>
+      <div class="col-sm-3">
+        <div class="row">
+          <span>Phone:</span>
+          <span>{{phone}}</span>
+        </div>
+        <div class="row">
+          <span>Email:</span>
+          <span>{{email}}</span>
+        </div>
+      </div>
+    </div>
+    <br class="printViewHide">
+    <div class="row printViewHide" *ngIf="availableItems">
+      <div class="col-sm-4">Model</div>
+      <div class="col-sm-4">
+        <select [(ngModel)]="itemModel" class="browser-default custom-select">
+          <option *ngFor="let avail of availableItems" selected="avail.hsnsac==itemModel">{{avail.hsnsac}}</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <input id="user_lic" [(ngModel)]="count" type="number" min="1" max="30" step="1" value="1" />
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary" (click)="addItems();">Add Item</button>
 
-    <div id="container" *ngIf="selectedProducts"style="text-align: right">
+      </div>
+    </div>
+    <br>
+
+
+
+    <app-bill-address></app-bill-address>
+    <br>
+    <div id="container" *ngIf="selectedProducts" style="text-align: right">
       <table class="table table-condensed billing-table" *ngIf="selectedProducts">
-          <tr style="border: 2px solid goldenrod; padding:0px">
-              <th class="col-xs-2" rowspan="2" style="border: 2px solid goldenrod; padding:0px">SL No.</th>
-              <th class="col-xs-4" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Particulars</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >HSN/SAC</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Qty</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Unit</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Rate</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Amount</th>
-              <th class="col-xs-6" colspan="2" style="border: 2px solid goldenrod; padding:0px" >CGST</th>
-              <th class="col-xs-6" colspan="2" style="border: 2px solid goldenrod; padding:0px" >SGST</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Tax total</th>
-              <th class="col-xs-6" rowspan="2" style="border: 2px solid goldenrod; padding:0px" >Total</th>
-            </tr>
-        <tr>
-          <th class="col-xs-6" style="border: 2px solid; padding:0px">%</th>
-          <th class="col-xs-6" style="border: 2px solid; padding:0px">Amount</th>
-          <th class="col-xs-6" style="border: 2px solid; padding:0px">%</th>
-          <th class="col-xs-6" style="border: 2px solid; padding:0px" >Amount</th>
+        <tr style="border: 1px solid black; padding:0px; ; text-align: center">
+          <th class="col-xs-2" rowspan="2" style="border: 1px solid black; padding:0px">SL No.</th>
+          <th class="col-xs-4" rowspan="2" style="border: 1px solid black; padding:0px">Particulars</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">HSN/SAC</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Qty</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Unit</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Rate</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Amount</th>
+          <th class="col-xs-6" colspan="2" style="border: 1px solid black; padding:0px">CGST</th>
+          <th class="col-xs-6" colspan="2" style="border: 1px solid black; padding:0px">SGST</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Tax total</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Total</th>
         </tr>
-        <tr style="border: none; border-left: 2px solid" *ngFor="let sel of selectedProducts; index as i" >
-        <td style="border: none; border-left: 2px solid" >{{i+1}}</td>
-        <td style=" border: none; border-left: 2px solid" >{{sel.particulars}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.hsnsac}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.qty}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.unit}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.rate}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.amount}}</td>
-        <td style="border: none; border-left: 2px solid" >{{cgst+"%"}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.cgstAmount}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sgst+"%"}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.sgstAmount}}</td>
-        <td style="border: none; border-left: 2px solid" >{{sel.taxTotal}}</td>
-        <td style="border: none; border-left: 2px solid; border-right: 2px solid" >{{sel.total}}</td>
-      </tr>
-      <tr>
-        <td colspan="3" style="text-align: center">Total</td>
-        <td>{{totalQty}}</td>
-        <td colspan="3" >{{totalAmount}}</td>
-        <td colspan="2">{{totalCgst}}</td>
-        <td colspan="2">{{totalSgst}}</td>
-        <td>{{totalTax}}</td>
-        <td>{{finalAmountGst}} </td>
-       </tr>
+        <tr>
+          <th class="col-xs-6" style="border: 1px solid; padding:0px">%</th>
+          <th class="col-xs-6" style="border: 1px solid; padding:0px">Amount</th>
+          <th class="col-xs-6" style="border: 1px solid; padding:0px">%</th>
+          <th class="col-xs-6" style="border: 1px solid; padding:0px">Amount</th>
+        </tr>
+        <tr style="border: none; border-left: 1px solid" *ngFor="let sel of selectedProducts; index as i">
+          <td style="border: none; border-left: 1px solid">{{i+1}}</td>
+          <td style=" border: none; border-left: 1px solid">{{sel.particulars}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.hsnsac}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.qty}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.unit}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.rate}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.amount}}</td>
+          <td style="border: none; border-left: 1px solid">{{cgst+"%"}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.cgstAmount}}</td>
+          <td style="border: none; border-left: 1px solid">{{sgst+"%"}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.sgstAmount}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.taxTotal}}</td>
+          <td style="border: none; border-left: 1px solid; border-right: 1px solid">{{sel.total}}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: center">Total</td>
+          <td>{{totalQty}}</td>
+          <td colspan="3">{{totalAmount}}</td>
+          <td colspan="2">{{totalCgst}}</td>
+          <td colspan="2">{{totalSgst}}</td>
+          <td>{{totalTax}}</td>
+          <td>{{finalAmountGst}} </td>
+        </tr>
       </table>
     </div>
   </div>

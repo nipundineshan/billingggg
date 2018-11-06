@@ -8,25 +8,25 @@ import { Product } from '../types/product';
 })
 export class BillingComponent implements OnInit {
 
-  selectedItems=[];
-  selectedItems1 = [1,2,3]
+  selectedItems = [];
+  selectedItems1 = [1, 2, 3]
   itemModel;
-  availableItems=[];
+  availableItems = [];
   some = "aaaaaaaaaa";
   sel;
-itemMap = {};
-count=1;
-cgst = 6;
-sgst = 6;
-finalAmount = 0;
-finalAmountGst = 0;
+  itemMap = {};
+  count = 1;
+  cgst = 6;
+  sgst = 6;
+  finalAmount = 0;
+  finalAmountGst = 0;
 
-selectedProducts : Product [];
-totalQty:number = 0;
-totalAmount:number = 0;
-totalSgst:number = 0;
-totalCgst:number = 0;
-totalTax : number = 0;
+  selectedProducts: Product[];
+  totalQty: number = 0;
+  totalAmount: number = 0;
+  totalSgst: number = 0;
+  totalCgst: number = 0;
+  totalTax: number = 0;
   constructor() { }
 
   ngOnInit() {
@@ -42,65 +42,65 @@ totalTax : number = 0;
     //   });
     // }catch(err){
     //   console.log(err);
-      
+
     // }
- 
 
-   this.availableItems=[{
-      "particulars" : "name123",
-      "hsnsac" : "model12",
-      "unit":"100",
-      "rate" : 50
-  },
-  {
-    "particulars" : "2222",
-    "hsnsac" : "3333",
-    "unit":"100",
-    "rate" : 24
-  }];
 
-  this.availableItems.forEach(element => {
-    this.itemMap[element.hsnsac] = element;
-    this.itemModel = this.itemMap[0];
-  });
+    this.availableItems = [{
+      "particulars": "name123",
+      "hsnsac": "model12",
+      "unit": "100",
+      "rate": 50
+    },
+    {
+      "particulars": "2222",
+      "hsnsac": "3333",
+      "unit": "100",
+      "rate": 24
+    }];
 
-  
+    this.availableItems.forEach(element => {
+      this.itemMap[element.hsnsac] = element;
+      this.itemModel = this.itemMap[0];
+    });
+
+
 
   }
-  addItems(){
-    if(!this.selectedProducts){
+  addItems() {
+    if (!this.selectedProducts) {
       this.selectedProducts = [];
-    } 
+    }
     console.log(this.itemModel)
     console.log(this.count)
     let qty = this.count;
-   
+
     let selectedGoods = this.itemMap[this.itemModel];
-    
-    
-    let {particulars, hsnsac, unit, rate } = selectedGoods;
-    let [ cgst, sgst] = [this.cgst, this.sgst]
-  
-    let prod = new Product({particulars, hsnsac, unit, rate, qty, cgst, sgst })
+
+
+    let { particulars, hsnsac, unit, rate } = selectedGoods;
+    let [cgst, sgst] = [this.cgst, this.sgst]
+
+    let prod = new Product({ particulars, hsnsac, unit, rate, qty, cgst, sgst })
     this.selectedProducts.push(prod)
     console.log(JSON.stringify(this.selectedItems));
-    
+
     this.totalQty = this.totalQty + qty;
-this.totalAmount = this.totalAmount + prod.amount;
-this.totalCgst = this.totalCgst + prod.cgstAmount;
-this.totalSgst = this.totalSgst + prod.sgstAmount;
-this.totalTax = this.totalTax + prod.taxTotal;
+    this.totalAmount = this.totalAmount + prod.amount;
+    this.totalCgst = this.totalCgst + prod.cgstAmount;
+    this.totalSgst = this.totalSgst + prod.sgstAmount;
+    this.totalTax = this.totalTax + prod.taxTotal;
     this.finalAmountGst = this.finalAmountGst + prod.total;
 
-  //   console.log('in add itemssssssss'); 
-    
-  //   window.fs.writeFile("saample.txt", "Hey there!", function(err) {
-  //     if(err) {
-  //         return console.log(err);
-  //     }
-  
-  //     console.log("The file was saved!");
-  // }); 
+    //   console.log('in add itemssssssss'); 
+
+    //   window.fs.writeFile("saample.txt", "Hey there!", function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+
+    //     console.log("The file was saved!");
+    // }); 
   }
 
 }
