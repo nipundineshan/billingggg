@@ -26,16 +26,20 @@
     <div class="row printViewHide" *ngIf="availableItems">
       <div class="col-sm-4">Model</div>
       <div class="col-sm-4">
-        <select [(ngModel)]="itemModel" class="browser-default custom-select">
-          <option *ngFor="let avail of availableItems" selected="avail.hsnsac==itemModel">{{avail.hsnsac}}</option>
+        <select [(ngModel)]="itemModel" class="browser-default custom-select" (change)="getAvailableQty();" >
+          <option *ngFor="let avail of availableItems" selected="{{avail.hsnsac==itemModel}}" >{{avail.hsnsac}}</option>
         </select>
       </div>
       <div class="col-sm-2">
-        <input id="user_lic" [(ngModel)]="count" type="number" min="1" max="30" step="1" value="1" />
+        <input id="user_lic" [(ngModel)]="count" type="number" min="1" max={{maxCount}} step="1" value="1" />
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-1">
         <button class="btn btn-primary" (click)="addItems();">Add Item</button>
-
+          </div>
+      <div class="col-sm-1">
+        <input class="btn btn-primary" type="button" value="Print" (click)="printBill();" onclick="window.print()" />
+        <!-- <input class="btn btn-primary" type="button" value="Print" (click)="printBill();" /> -->
+     
       </div>
     </div>
     <br>
@@ -74,23 +78,24 @@
           <td style="border: none; border-left: 1px solid">{{sel.rate}}</td>
           <td style="border: none; border-left: 1px solid">{{sel.amount}}</td>
           <td style="border: none; border-left: 1px solid">{{cgst+"%"}}</td>
-          <td style="border: none; border-left: 1px solid">{{sel.cgstAmount}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.cgstAmount.toFixed(2)}}</td>
           <td style="border: none; border-left: 1px solid">{{sgst+"%"}}</td>
-          <td style="border: none; border-left: 1px solid">{{sel.sgstAmount}}</td>
-          <td style="border: none; border-left: 1px solid">{{sel.taxTotal}}</td>
-          <td style="border: none; border-left: 1px solid; border-right: 1px solid">{{sel.total}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.sgstAmount.toFixed(2)}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.taxTotal.toFixed(2)}}</td>
+          <td style="border: none; border-left: 1px solid; border-right: 1px solid">{{sel.total.toFixed(2)}}</td>
         </tr>
         <tr>
           <td colspan="3" style="text-align: center">Total</td>
           <td>{{totalQty}}</td>
-          <td colspan="3">{{totalAmount}}</td>
-          <td colspan="2">{{totalCgst}}</td>
-          <td colspan="2">{{totalSgst}}</td>
-          <td>{{totalTax}}</td>
-          <td>{{finalAmountGst}} </td>
+          <td colspan="3">{{totalAmount.toFixed(2)}}</td>
+          <td colspan="2">{{totalCgst.toFixed(2)}}</td>
+          <td colspan="2">{{totalSgst.toFixed(2)}}</td>
+          <td>{{totalTax.toFixed(2)}}</td>
+          <td>{{finalAmountGst.toFixed(2)}} </td>
         </tr>
       </table>
     </div>
+    <app-footer-notice></app-footer-notice>
   </div>
 </body>
 

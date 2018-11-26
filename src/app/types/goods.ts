@@ -4,4 +4,5 @@ export class Goods{
     hsnsac:string;
     unit:string;
     rate:number;
+    qty:number;
 }

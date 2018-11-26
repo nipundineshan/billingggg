@@ -1,10 +1,11 @@
 <div class="row" style="border: 1px solid ">
-  <div class="col">
-    <h5>Name and Adress</h5>
-    <p>Sudinam products</p>
+  <div class="col" *ngIf="address">
+    <h5>Name and Adress</h5>{{address}}
+    <!-- <p *ngFor="let addr of address">Sudinam products</p>
     <p>S.N. Puram, Vadakkumbad</p>
     <p>PO Ummanchira, Thalassery</p>
-    <p>Kannur-670649</p>
+    <p>Kannur-670649</p> -->
+    <p *ngFor="let addr of address"></p>
   </div>
   <div class="col" style="border-right: 1px solid; border-left: 1px solid"></div>
   <div class="col" style="padding-left: 0px; padding-right: 0px;">
@@ -16,7 +17,7 @@
       </tr>
       <tr>
         <td>Date</td>
-        <td>{{date}}</td>
+        <td>{{date  | date: 'dd/MM/yyyy'}}</td>
       </tr>
       <tr>
         <td>Mode of payment</td>

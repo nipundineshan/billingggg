@@ -1,3 +1,98 @@
-<p>
-  stock works!
-</p>
+<div class="bg-image"></div>
+<div class="bg-text">
+
+    <div class="row" >
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-6" >
+                    <img src="./img/logo3.jpg">
+                </div>
+                <div class="col-sm-1">
+                    <h1>I2C</h1>
+                </div>
+                </div>
+            <div >
+               
+               </div>
+        </div>
+        <div class="col-sm-4">
+          </div>
+      </div>
+
+    <div class = "container">
+     
+    <div class="form-group">
+      <label for="sel1">Model:</label>
+      <!-- <select class="form-control" id="sel1">
+        <option>Model1</option>
+        <option>Model2</option>
+        <option>Model3</option>
+        <option>Model4</option>
+      </select> -->
+      <input id="hsnsac" [(ngModel)]="hsnsac" type="text" placeholder="model" class = "form-control" />
+    </div>
+       <div class = "form-group">
+          <label for = "Name">Particulars</label>
+         <input id="particulars" [(ngModel)]="particulars" type="text" placeholder = "Name" class = "form-control" />
+
+       </div>
+
+       <div class = "form-group">
+        <label for = "Unit">Unit</label>
+       <input id="unit" [(ngModel)]="unit" type="text" placeholder = "unit" class = "form-control" />
+
+     </div>
+       
+       <div class = "form-group">
+          <label for = "qty">Qty</label>
+        <input id="qty" [(ngModel)]="qty" type="number" min="1" max="99999" step="1" value="1" class = "form-control" />
+
+       </div>
+
+       <div class = "form-group">
+        <label for = "Rate">Rate</label>
+                 <input id="rate" [(ngModel)]="rate"  type="number" min="0" max="99999" step="1" value="1" class = "form-control" />
+
+     </div>
+       
+       <div class = "form-group">
+        <button class="btn btn-primary" (click)="addItem();">Add Item</button>
+       </div>
+       
+       <div id = "contact-list">
+
+          <table class="table" id = "contact-table" style="border: 1px solid">
+            <thead>
+              <tr>
+                <th class="col-xs-2" rowspan="2" style="border: 1px solid black; padding:0px">SL No.</th>
+          <th class="col-xs-4" rowspan="2" style="border: 1px solid black; padding:0px">Particulars</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">HSN/SAC</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Qty</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Unit</th>
+          <th class="col-xs-6" rowspan="2" style="border: 1px solid black; padding:0px">Rate</th>
+          
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border: none; border-left: 1px solid" *ngFor="let sel of availableGoods; index as i">
+                <td style="border: none; border-left: 1px solid">{{i+1}}</td>
+                <td style=" border: none; border-left: 1px solid">{{sel.particulars}}</td>
+                <td style="border: none; border-left: 1px solid">{{sel.hsnsac}}</td>
+                <td style="border: none; border-left: 1px solid">{{sel.qty}}</td>
+                <td style="border: none; border-left: 1px solid">{{sel.unit}}</td>
+                <td style="border: none; border-left: 1px solid">{{sel.rate}}</td>
+              </tr>
+            
+            </tbody>
+          </table>
+       </div>
+
+
+       <div>
+
+        
+       </div>
+    </div>
+</div>

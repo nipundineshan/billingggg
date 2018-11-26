@@ -7,13 +7,17 @@ import { StockComponent } from './component/stock/stock.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { CommonModule } from '@angular/common';
 import { BillAddressComponent } from './component/bill-address/bill-address.component';
+import { FooterNoticeComponent } from './component/footer-notice/footer-notice.component';
+import { HomeComponent } from './component/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BillingComponent,
     StockComponent,
-    BillAddressComponent
+    BillAddressComponent,
+    FooterNoticeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

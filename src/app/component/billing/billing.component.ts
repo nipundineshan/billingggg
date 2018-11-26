@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../types/product';
+import { Product } from '../../types/product';
+import { StockService } from '../../service/stock.service';
+import { Goods } from '../../types/goods';
+import { ConfigService } from '../../service/config.service';
+import { BillingService } from '../../service/billing.service';
 
 @Component({
   selector: 'app-billing',
@@ -8,13 +12,12 @@ import { Product } from '../types/product';
 })
 export class BillingComponent implements OnInit {
 
-  selectedItems = [];
-  selectedItems1 = [1, 2, 3]
+  email;
+  phone;
   itemModel;
-  availableItems = [];
-  some = "aaaaaaaaaa";
+  availableItems :Goods [] = [];
   sel;
-  itemMap = {};
+  goodsModelsMap = {};
   count = 1;
   cgst = 6;
   sgst = 6;
@@ -27,46 +30,36 @@ export class BillingComponent implements OnInit {
   totalSgst: number = 0;
   totalCgst: number = 0;
   totalTax: number = 0;
-  constructor() { }
+productCountMap = {};
+maxCount = 100;
+
+  constructor(private stockService: StockService, private configService : ConfigService, 
+  private billingService : BillingService) { }
 
   ngOnInit() {
-    // try{
-    //   window.fs.readFile('stocks.json', (err, data) => {
-    //     console.log('in read fileeeeeee');
-    //     console.log(err, data);
-    //   //  this.availableItems = JSON.parse(data);
-    //     if (err) {
-    //       throw err
-    //     };
-    //     console.log('data >>>>> '+data);
-    //   });
-    // }catch(err){
-    //   console.log(err);
-
-    // }
-
-
-    this.availableItems = [{
-      "particulars": "name123",
-      "hsnsac": "model12",
-      "unit": "100",
-      "rate": 50
-    },
-    {
-      "particulars": "2222",
-      "hsnsac": "3333",
-      "unit": "100",
-      "rate": 24
-    }];
-
-    this.availableItems.forEach(element => {
-      this.itemMap[element.hsnsac] = element;
-      this.itemModel = this.itemMap[0];
+    this.configService.getConfig().subscribe((conf) => {
+      let {address, email, phoneNumber} = conf;
+     setTimeout(() => {
+      this.email = email; 
+      this.phone = phoneNumber; 
+     }, 100);
     });
 
+    this.stockService.getStockData().then((result) => {
+      this.availableItems = result;
+      console.log('this.availableItems');
+      console.log(this.availableItems);
 
+      this.availableItems.forEach(element => {
+        this.goodsModelsMap[element.hsnsac] = element;
+      });
+      this.itemModel = this.availableItems[0].hsnsac;
+    }).catch((err) => {
 
+    });
   }
+
+
   addItems() {
     if (!this.selectedProducts) {
       this.selectedProducts = [];
@@ -75,15 +68,18 @@ export class BillingComponent implements OnInit {
     console.log(this.count)
     let qty = this.count;
 
-    let selectedGoods = this.itemMap[this.itemModel];
+   if(this.productCountMap[this.itemModel]){
+    this.productCountMap[this.itemModel] = this.productCountMap[this.itemModel] + qty;
+   }else{
+    this.productCountMap[this.itemModel] = qty;
+   }
 
-
+    let selectedGoods = this.goodsModelsMap[this.itemModel];
     let { particulars, hsnsac, unit, rate } = selectedGoods;
     let [cgst, sgst] = [this.cgst, this.sgst]
 
     let prod = new Product({ particulars, hsnsac, unit, rate, qty, cgst, sgst })
     this.selectedProducts.push(prod)
-    console.log(JSON.stringify(this.selectedItems));
 
     this.totalQty = this.totalQty + qty;
     this.totalAmount = this.totalAmount + prod.amount;
@@ -91,16 +87,37 @@ export class BillingComponent implements OnInit {
     this.totalSgst = this.totalSgst + prod.sgstAmount;
     this.totalTax = this.totalTax + prod.taxTotal;
     this.finalAmountGst = this.finalAmountGst + prod.total;
+  }
 
-    //   console.log('in add itemssssssss'); 
+  printBill(){
 
-    //   window.fs.writeFile("saample.txt", "Hey there!", function(err) {
-    //     if(err) {
-    //         return console.log(err);
-    //     }
+    let updatedStock : Goods[] = [];
 
-    //     console.log("The file was saved!");
-    // }); 
+    this.stockService.getStockData().then((stocks) => {
+
+      for (let index = 0; index < stocks.length; index++) {
+        let availItems = stocks[index];        
+        if(this.productCountMap[availItems.hsnsac]){
+          let selectedCount = this.productCountMap[availItems.hsnsac];
+          availItems.qty = availItems.qty - selectedCount;
+        }
+        updatedStock.push(availItems);
+      }
+    });
+
+    this.saveBill();
+  }
+
+  saveBill(){
+      this.billingService.saveBill(this.selectedProducts);
+  }
+
+  getAvailableQty(){
+    console.log('In getAvailableQty');
+    let selectedGoods = this.goodsModelsMap[this.itemModel];
+    this.count = selectedGoods.qty;
+    this.maxCount = this.count;
+    console.log(this.count);
   }
 
 }

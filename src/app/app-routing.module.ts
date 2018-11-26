@@ -3,9 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { BillingComponent } from './component/billing/billing.component';
 import { StockComponent } from './component/stock/stock.component';
+import { HomeComponent } from './component/home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/billing', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'stock', component: StockComponent },
   { path: 'billing', component: BillingComponent }
 ];
