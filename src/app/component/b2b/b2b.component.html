@@ -1,0 +1,206 @@
+<div>
+    <div class="row">
+        <div class="col-sm-11"><div class="pull-left">{{gstin}}</div></div>
+        <div class="col-sm-1 printViewShow">{{billType}}</div>
+    </div>
+
+    <div class="container">
+    <div class="row" style="border: 1px solid">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6" style="text-align: center">TAX INVOICE</div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="row" style="border: 1px solid">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" style="text-align: center">{{address}}
+        </div>
+      </div>
+      <br>
+      <div class="row" style="border: 1px solid ">
+        <div class="col" style="padding-left: 0px; padding-right: 0px;">
+    
+          <table  style="width:100%">
+            <tr>
+              <td>Invoice No.</td>
+              <td >{{invoiceNumber}}</td>
+            </tr>
+            <tr>
+              <td>Date of Invoice</td>
+              <td>{{date  | date: 'dd/MM/yyyy'}}</td>
+            </tr>
+            <tr>
+              <td>Place of Supply</td>
+              <td><input style="width:100%" type="text"></td>
+            </tr>
+            <tr>
+              <td>Reverse charge</td>
+              <td><input style="width:100%" type="text"></td>
+            </tr>
+            
+          </table>
+        </div>
+        <div class="col" style="padding-left: 0px; padding-right: 0px;">
+    
+          <table style="width:100%">
+            <tr>
+              <td>Transport Mode</td>
+              <td><input style="width:100%" type="text"></td>
+            </tr>
+            <tr>
+              <td>Vehicle No.</td>
+              <td><input style="width:100%" type="text"></td>
+            </tr>
+            <tr>
+              <td>Station</td>
+              <td><input style="width:100%" type="text"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+<div class="row" style="border: 1px solid ">
+  <div class="col" style="border-right: 1px solid; border-left: 1px solid">
+    <h5>Billed to</h5>
+    <textarea name="" id="" rows="4" style="width:100%"></textarea>
+  </div>
+  <div class="col" style="border-right: 1px solid; border-left: 1px solid">
+    <h5>Shipped to</h5>
+    <textarea name="" id="" rows="4" style="width:100%"></textarea>
+  </div>
+</div>
+
+    <br class="printViewHide">
+    <div class="row printViewHide" *ngIf="availableItems">
+      <div class="col-sm-4">Model</div>
+      <div class="col-sm-4">
+        <select [(ngModel)]="itemModel" class="browser-default custom-select" (change)="getAvailableQty();" >
+          <option *ngFor="let avail of availableItems" selected="{{avail.hsnsac==itemModel}}" >{{avail.hsnsac}}</option>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <input id="user_lic" [(ngModel)]="count" type="number" min="1" max={{maxCount}} step="1" value="1" />
+      </div>
+      <div class="col-sm-1">
+        <button class="btn btn-primary" (click)="addItems();">Add Item</button>
+          </div>
+      <div class="col-sm-1">
+        <input class="btn btn-primary" type="button" value="Print" (click)="printBill();" />
+        <!-- <input class="btn btn-primary" type="button" value="Print" (click)="printBill();" /> -->
+        <!-- <button type="button" class="btn btn-info" (click)="generate()">Info</button> -->
+
+
+      </div>
+    </div>
+    <br>
+
+
+
+
+    <br>
+    <div id="selectedItemTableId">
+    <div id="container" *ngIf="selectedProducts" >
+      <table class="table table-condensed tablecls" *ngIf="selectedProducts">
+        <tr style="border: 1px solid black; padding:0px;">
+          <th  style="border: 1px solid black; padding:0px">SL No.</th>
+          <th  style="border: 1px solid black; padding:0px">Description Of Goods</th>
+          <th  style="border: 1px solid black; padding:0px">HSN/SAC</th>
+          <th  style="border: 1px solid black; padding:0px">Qty</th>
+          <th  style="border: 1px solid black; padding:0px">Unit</th>
+          <th  style="border: 1px solid black; padding:0px">Price</th>
+          <th  style="border: 1px solid black; padding:0px">Amount</th>
+        </tr>
+        <tr style="border: none; border-left: 1px solid" *ngFor="let sel of selectedProducts; index as i">
+          <td style="border: none; border-left: 1px solid">{{i+1}}</td>
+          <td style=" border: none; border-left: 1px solid">{{sel.particulars}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.hsnsac}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.qty}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.unit}}</td>
+          <td style="border: none; border-left: 1px solid">{{sel.rate}}</td>
+          <td style="border: none; border-left: 1px solid;border-right: 1px solid">{{sel.amount}}</td>
+         </tr>
+         <tr>
+          <td colspan="3" style="text-align: center">Total</td>
+          <td>{{totalQty}}</td>
+          <td ></td>
+          <td ></td>
+          <td>{{totalAmount.toFixed(2)}}</td>
+        </tr>
+        <tr>
+          <td colspan="7">
+            <table style="width:100%; border:none">
+                <tr>
+                    <td>Add</td>
+                  <td colspan="2"><input style="width:100%" type="text"></td>
+                  <td colspan="2"><input style="width:100%"  (input)="onSearchChange($event.target.value)" [(ngModel)]="other1" type="number"></td>
+                </tr>
+                <tr>
+                    <td>Add</td>
+                    <td colspan="2"><input style="width:100%" type="text"></td>
+                    <td colspan="2"><input style="width:100%" (input)="onSearchChange($event.target.value)" [(ngModel)]="other2" type="number"></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><span>Add: IGST    @ 12%</span></td>
+                    <td colspan="2"><p>{{(totalCgst+totalSgst).toFixed(2)}}</p></td>
+                </tr>
+              </table>
+            </td>
+            </tr>
+            <!-- <tr>
+          <td colspan="6" style="text-align: center; line-height: 20px">
+            <p></p>
+          <p>Add: PACKING CHARGES</p>
+          <p>Add: AUTO CHARGES</p>
+          <p>Add: IGST    @ 12%</p>
+          </td>
+          <td colspan="6" style="text-align: center; line-height: 10px">
+            <p>{{totalAmount.toFixed(2)}}</p>
+            <p><input type="text" [(ngModel)]="other1" (input)="onSearchChange($event.target.value)"></p>
+            <p><input type="text" [(ngModel)]="other2" (input)="onSearchChange($event.target.value)"></p>
+            <p>{{(totalCgst+totalSgst).toFixed(2)}}</p>
+            </td> -->
+          <!-- <td>{{totalQty}}</td> -->
+          <!-- <td colspan="3">{{totalAmount.toFixed(2)}}</td>
+          <td colspan="2">{{totalCgst.toFixed(2)}}</td>
+          <td colspan="2">{{totalSgst.toFixed(2)}}</td>
+          <td>{{totalTax.toFixed(2)}}</td>
+          <td>{{finalAmountGst.toFixed(2)}} </td> -->
+        <!-- </tr> -->
+        <tr>
+          <td colspan="6" style="text-align: center; line-height: 20px">
+            <p>Grand Total : {{totalQty}}</p>
+          </td>
+          <td colspan="6" style="text-align: center; line-height: 10px">
+            <p>{{finalAmountWithOther.toFixed(2)}}</p>
+            </td>
+          
+        </tr>
+        <tr>
+          <td colspan="6"><span>Total in words: </span> </td>
+          <td> <span>{{convertNumberToWords(finalAmountWithOther)}}</span>
+          </td>
+          </tr>
+
+          <tr>
+            <td>
+              <span>Tax Rate</span>
+              <p>12%</p>
+            </td>
+            <td colspan="2"><span>Taxable amount</span>
+            <p>{{finalAmountWithOther.toFixed(2)}}</p></td>
+            <td colspan="2"><span> CGST - 6%</span> <p>
+                {{totalCgst.toFixed(2)}}
+            </p></td>
+            <td colspan="2"><span>SGST - 6%</span>
+              <p>{{totalSgst.toFixed(2)}}</p>
+            </td>
+          </tr>
+      </table>
+    </div>
+  </div>
+    <app-footer-notice></app-footer-notice>
+              
+  </div>
+</div>
+    
+ 
+  

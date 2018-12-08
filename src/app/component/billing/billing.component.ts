@@ -4,6 +4,7 @@ import { StockService } from '../../service/stock.service';
 import { Goods } from '../../types/goods';
 import { ConfigService } from '../../service/config.service';
 import { BillingService } from '../../service/billing.service';
+import { PdfGeneratorService } from 'src/app/service/pdf-generator.service';
 
 @Component({
   selector: 'app-billing',
@@ -32,16 +33,27 @@ export class BillingComponent implements OnInit {
   totalTax: number = 0;
 productCountMap = {};
 maxCount = 100;
+billType = "Original";
+address;
+saved =false;
+date;
+invoiceNumber;
 
   constructor(private stockService: StockService, private configService : ConfigService, 
-  private billingService : BillingService) { }
+  private billingService : BillingService, private pdfGen : PdfGeneratorService) { }
 
   ngOnInit() {
+    this.date = new Date();
+    this.billingService.getInvoiceNumber(false).subscribe(invoiceNumber => {
+      this.invoiceNumber = 'i2c-1' + new Date().getTime() + '-' + invoiceNumber;
+    });
+    this.billingService.getInvoiceNumber(true).subscribe();
     this.configService.getConfig().subscribe((conf) => {
       let {address, email, phoneNumber} = conf;
      setTimeout(() => {
       this.email = email; 
       this.phone = phoneNumber; 
+      this.address = address;
      }, 100);
     });
 
@@ -91,6 +103,17 @@ maxCount = 100;
 
   printBill(){
 
+      window.print();
+      if( this.billType == "Duplicate"){
+        this.billType = "Triplicate";
+      }else {
+        this.billType = "Duplicate";
+      }
+
+      if( this.saved){
+          return;
+      }
+      this.saved = true;
     let updatedStock : Goods[] = [];
 
     this.stockService.getStockData().then((stocks) => {
@@ -118,6 +141,10 @@ maxCount = 100;
     this.count = selectedGoods.qty;
     this.maxCount = this.count;
     console.log(this.count);
+  }
+
+  generate():void{
+    this.pdfGen.generateBillType1();
   }
 
 }

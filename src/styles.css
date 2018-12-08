@@ -2,10 +2,10 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 
-td {
+.tablecls td {
     padding: 0%;
     vertical-align: top;
-    border: 1px solid #dee2e6;
+    border: 1px solid  black;
 }
 
 .billing-table td{

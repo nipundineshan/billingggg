@@ -6,4 +6,5 @@ export class Config{
     modeOfPay : string;
     poNumber: string;
     transport: string;
+    gstin:string;
 }

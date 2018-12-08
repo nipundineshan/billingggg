@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { BillAddressComponent } from './component/bill-address/bill-address.component';
 import { FooterNoticeComponent } from './component/footer-notice/footer-notice.component';
 import { HomeComponent } from './component/home/home.component';
+import { B2bComponent } from './component/b2b/b2b.component';
+import { B2bHeaderComponent } from './component/b2b-header/b2b-header.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { HomeComponent } from './component/home/home.component';
     StockComponent,
     BillAddressComponent,
     FooterNoticeComponent,
-    HomeComponent
+    HomeComponent,
+    B2bComponent,
+    B2bHeaderComponent
   ],
   imports: [
     BrowserModule,

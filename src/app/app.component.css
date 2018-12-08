@@ -2,5 +2,11 @@
    .printViewHide{
        display: none;
    }
-   
+   .printViewShow{
+       display: block;
+   }
+}
+
+.printViewShow{
+    display: none;
 }
